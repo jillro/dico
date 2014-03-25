@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Dico by guilro</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Dico</h1>
+        <p class="header">A service container in javascript.</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/guilro/dico/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/guilro/dico/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/guilro/dico">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/guilro">guilro</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a name="dico" class="anchor" href="#dico"><span class="octicon octicon-link"></span></a>Dico</h1>
+
+<p>Dico is a simple dependency injection container in javascript.</p>
+
+<h1>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h1>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>npm install dico
+</pre></div>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Require it your code :</p>
+
+<div class="highlight highlight-js"><pre><span class="kd">var</span> <span class="nx">dico</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'dico'</span><span class="p">);</span>
+<span class="nx">container</span> <span class="o">=</span> <span class="nx">dico</span><span class="p">(</span><span class="s1">'myApp'</span><span class="p">);</span>
+</pre></div>
+
+<p>The container object has three methods, <code>get</code>, <code>set</code> and <code>load</code>, for managing parameters and services. In simple cases, you can <code>set</code> manually parameters and services, but if you use a dependency injector, you would probably want to load it from a JSON config file.</p>
+
+<h3>
+<a name="parameters" class="anchor" href="#parameters"><span class="octicon octicon-link"></span></a>Parameters</h3>
+
+<div class="highlight highlight-js"><pre><span class="nx">container</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'param'</span><span class="p">,</span> <span class="s1">'paramValue'</span><span class="p">);</span>
+<span class="nx">container</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'param'</span><span class="p">);</span> <span class="c1">// return 'paramValue'</span>
+</pre></div>
+
+<h3>
+<a name="services" class="anchor" href="#services"><span class="octicon octicon-link"></span></a>Services</h3>
+
+<p>To define services, just pass a function as a parameter. The function will get the container as the first parameter and a callback as the second. A service can be any object useful to your app and/or to other services.</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">container</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'myService'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// get params from container</span>
+  <span class="kd">var</span> <span class="nx">param1</span> <span class="o">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'param1'</span><span class="p">);</span>
+  <span class="c1">// create service object with those params</span>
+  <span class="c1">// ...</span>
+
+  <span class="k">return</span> <span class="nx">cb</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">service</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">container</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'@myService'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">service</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">service</span><span class="p">.</span><span class="nx">doStuff</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>To get the service, just put <code>@</code> before its name. If you do <code>container.get('myService')</code>, it will return the service creation function and not the service itself.</p>
+
+<p>With the container being passed, you can access other services and parameters inside the service creation function. Dependencies are injected this way.</p>
+
+<p>Note that services are only instantiated when requested, so the order of definition does not matter.</p>
+
+<h3>
+<a name="loading-from-json" class="anchor" href="#loading-from-json"><span class="octicon octicon-link"></span></a>Loading from JSON</h3>
+
+<p>You can use <code>container.load(config, basedir)</code> to define many services quickly.</p>
+
+<p>./services/config.json :</p>
+
+<div class="highlight highlight-json"><pre>  <span class="p">{</span>
+  <span class="nt">"database"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">"module"</span><span class="p">:</span> <span class="s2">"./services/database.js"</span><span class="p">,</span>
+    <span class="nt">"errorLog"</span><span class="p">:</span> <span class="s2">"@logger"</span><span class="p">,</span>
+    <span class="nt">"host"</span><span class="p">:</span> <span class="s2">"localhost"</span>
+  <span class="p">},</span>
+  <span class="nt">"logger"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">"module"</span><span class="p">:</span> <span class="s2">"./services/logger.js"</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="nt">"environment"</span><span class="p">:</span> <span class="s2">"dev"</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>./services/database.js</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">container</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">container</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'@errorLog'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">logger</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">cb</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+
+    <span class="kd">var</span> <span class="nx">database</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Database</span><span class="p">();</span>
+    <span class="nx">database</span><span class="p">.</span><span class="nx">setErrorLog</span><span class="p">(</span><span class="nx">logger</span><span class="p">);</span>
+    <span class="nx">database</span><span class="p">.</span><span class="nx">setEnv</span><span class="p">(</span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'environment'</span><span class="p">));</span>
+
+    <span class="nx">cb</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">database</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">};</span>
+</pre></div>
+
+<p>./services/logger.js</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">container</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Logger</span><span class="p">();</span>
+  <span class="nx">logget</span><span class="p">.</span><span class="nx">setLevel</span><span class="p">(</span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'environment'</span><span class="p">));</span>
+<span class="p">};</span>
+</pre></div>
+
+<p>./app.js :</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">container</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">'./services/config.json'</span><span class="p">),</span> <span class="nx">__dirname</span><span class="p">);</span>
+
+<span class="nx">container</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'@database'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">database</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">database</span><span class="p">.</span><span class="nx">doStuff</span><span class="p">();</span>
+<span class="p">})</span>
+</pre></div>
+
+<p>The second parameter of <code>load</code> is the base directory where we should require the modules indicated in the config.</p>
+
+<p>Each property of the config is set as a new service if it has itself a <code>module</code> property (like <code>logger</code> and <code>database</code>), and is set as a parameter otherwise (like <code>environment</code>). Services defined this way can get <em>local parameters</em>, like <code>errorLog</code> and <code>host</code> in the example, wich are not accessible from other services. (see below)</p>
+
+<h3>
+<a name="namespacing" class="anchor" href="#namespacing"><span class="octicon octicon-link"></span></a>Namespacing</h3>
+
+<p>Containers which are passed to service creation functions are slightly modified. Each time you try to access a parameter or a service from a container passed to a service creation function, the name of the service you are currently creating is first appended with a dot to the parameter you are requesting. Only if such a parameter is undefined, it will try to get it with the original name.</p>
+
+<p>It allows you to override parameters locally if several services are using the same names for there parameters but you want to inject different parameters to those services. In the example above, <code>errorLog</code> and <code>host</code> are in fact set to <code>database.errorLog</code> and <code>database.host</code> in the container, so they do not interfer with the logger service parameters.</p>
+
+<p>As we can access them from the database service creation function without writing excplicitely the namespace, it will more likely be completely transparent if you do not use this feature.</p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		          <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-38236861-5");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
