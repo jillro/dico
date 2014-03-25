@@ -118,3 +118,62 @@ Containers which are passed to service creation functions are slightly modified.
 It allows you to override parameters locally if several services are using the same names for there parameters but you want to inject different parameters to those services. In the example above, `errorLog` and `host` are in fact set to `database.errorLog` and `database.host` in the container, so they do not interfer with the logger service parameters.
 
 As we can access them from the database service creation function without writing excplicitely the namespace, it will more likely be completely transparent if you do not use this feature.
+
+The following methods of settings services will result in the same state for the container :
+
+* [Loading from parsed json](#loading-from-json) or from config object :
+
+  ~~~ js
+  container.load({
+    'database': {
+      'module': './services/database.js',
+      'errorLog': '@logger',
+      'host': 'localhost'
+    },
+    'logger': {
+      'module': './services/logger.js',
+    },
+    'environment': 'dev'
+  });
+  ~~~
+* Instanciate manually :
+
+  ~~~ js
+  container.set('database', require('./services/database.js'));
+  container.set('database.errorLog', '@logger');
+  container.set('database.host', 'localhost');
+
+  container.set('logger', require('./services/logger.js'));
+
+  container.set('environment': 'dev');
+  ~~~
+
+### Set local params in service creation functions
+
+You can also set parameters inside a service creation function, and they will be namespaced.
+
+~~~ js
+dico.set('globalService', function(c, cb) {
+  c.set('localService', function(c, cb) {
+    var localService = { name: 'localService' };
+
+    return cb(null, localService);
+  });
+  c.set('localParam', 'localParamValue');
+
+  var globalService = { name: 'globalService' };
+
+  return cb(null, globalService);
+});
+
+dico.get('@globalService', function(err, service) {
+  typeof dico.get('localParam'); // undefined
+  dico.get('globalService.localParam'); // 'localParamValue'
+  dico.get('@localService', function(err, service) {
+    typeof service; //undefined
+  });
+  dico.get('@globalService.localService', function(err, service) {
+    service.name; // 'localService')
+  });
+});
+~~~
