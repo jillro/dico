@@ -3,9 +3,6 @@ layout: default
 title: Examples
 ---
 
-* Table of content.
-{:toc}
-
 # Examples
 
 Dico can be use to instantiate and inject services in your application. You can write your own services, or use existing ones, provided by other modules.

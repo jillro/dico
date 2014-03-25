@@ -3,7 +3,7 @@ layout: default
 title: Get Started
 ---
 
-* Table of content.
+1. Table of content.
 {:toc}
 
 # Dico

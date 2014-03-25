@@ -5,8 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Dico - {{ page.title }}</title>
 
+    <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/default.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/cerulean/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <script src="javascripts/scale.fix.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
@@ -14,30 +16,44 @@
     <![endif]-->
   </head>
   <body>
-    <div class="wrapper">
-      <header>
-        <h1 class="header">Dico</h1>
-        <p class="header">A service container in javascript.</p>
+    <div class="container-fluid">
+      <div class="row">
+        <header class="col-md-3 affix">
+          <div class="row">
+            <div class="col-md-12 col-sm-4">
+              <h1 class="header">Dico</h1>
+              <p class="header">A service container in javascript.</p>
+            </div>
 
-        <p><ul>
-          <li><a href="{{ site.baseurl }}/index.html">Get Started</a></li>
-          <li><a href="{{ site.baseurl }}/examples.html">Examples</a></li>
-          <li><a href="{{ site.baseurl }}/services.html">Available services</a></li>
-        </ul><p>
+            <div class="col-md-12 col-sm-4">
+              <ul>
+                <li><a href="{{ site.baseurl }}/index.html">Get Started</a></li>
+                <li><a href="{{ site.baseurl }}/examples.html">Examples</a></li>
+                <li><a href="{{ site.baseurl }}/services.html">Available services</a></li>
+              </ul>
+            </div>
 
-        <ul class="buttons">
-          <li><a class="buttons github" href="https://github.com/guilro/dico">View On GitHub</a></li>
-        </ul>
+            <div class="col-md-12 col-sm-4">
+              <ul class="buttons">
+                <li class="btn btn-primary github"><a href="https://github.com/guilro/dico">View On GitHub</a></li>
+              </ul>
 
-        <p class="header">This project is maintained by <a class="header name" href="https://github.com/guilro">guilro</a></p>
+              <p class="header">Maintained by <a class="header name" href="https://github.com/guilro">@guilro</a></p>
+            </div>
 
-
-      </header>
-      <section>
-        {{ content }}
-      </section>
+          </div>
+        </header>
+        <div class="clearfix visible-xs visible-sm"></div>
+        <section class="col-md-9 col-md-offset-3">
+          {{ content }}
+        </section>
+      </div>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+    <script type="text/javascript">
+      hljs.initHighlightingOnLoad();
+    </script>
     <script type="text/javascript">
       var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
       document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
