@@ -1,6 +1,6 @@
 'use strict';
 
-var dico = require('../lib/index.js')();
+var dico = require('../lib/index.js')('test');
 var assert = require('assert');
 var path = require('path');
 
@@ -165,7 +165,7 @@ describe('Dico', function() {
 
   describe('module', function() {
     it('should give new container if called with different parameter', function(done){
-      var container = require('../lib/index.js')('test');
+      var container = require('../lib/index.js')('test2');
       assert.equal(typeof container.get('paramName'), 'undefined');
 
       return done();
