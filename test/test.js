@@ -73,6 +73,36 @@ describe('Dico', function() {
     });
   });
 
+  describe('#set', function() {
+    it('should not affect global ns in service creation function', function(done) {
+      dico.set('globalService', function(c, cb) {
+        c.set('localService', function(c, cb) {
+          var localService = { name: 'localService' };
+
+          return cb(null, localService);
+        });
+        c.set('localParam', 'localParamValue');
+
+        var globalService = { name: 'globalService' };
+
+        return cb(null, globalService);
+      });
+
+      dico.get('@globalService', function(err, service) {
+        assert.equal(typeof dico.get('localParam'), 'undefined');
+        assert.equal(dico.get('globalService.localParam'), 'localParamValue');
+        dico.get('@localService', function(err, service) {
+          assert.equal(typeof service, 'undefined');
+
+          dico.get('@globalService.localService', function(err, service) {
+            assert.equal(service.name, 'localService');
+            done();
+          });
+        });
+      });
+    });
+  });
+
   describe('#load', function() {
     it('should load simple services from config file', function(done) {
       // in real use case, we would probably require config from a json file
