@@ -48,21 +48,23 @@ With the container being passed, you can access other services and parameters in
 
 Note that services are only instantiated when requested, so the order of definition does not matter.
 
-### Loading from config
+### Loading from JSON
 
 You can use `container.load(config, basedir)` to define many services quickly.
 
 ./services/config.json :
 ```json
-"database": {
-  "module": "./services/database.js",
-  "errorLog": "@logger",
-  "host": "localhost"
-},
-"logger": {
-  "module": "./services/logger.js",
-},
-"environment": "dev"
+  {
+  "database": {
+    "module": "./services/database.js",
+    "errorLog": "@logger",
+    "host": "localhost"
+  },
+  "logger": {
+    "module": "./services/logger.js",
+  },
+  "environment": "dev"
+}
 ```
 
 ./services/database.js
