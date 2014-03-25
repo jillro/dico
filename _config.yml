@@ -1,0 +1,5 @@
+markdown: redcarpet
+redcarpet:
+  extensions: ['tables']
+pygments: true
+baseurl: /dico
