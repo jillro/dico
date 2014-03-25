@@ -1,0 +1,58 @@
+{
+  "name": "dico",
+  "version": "0.0.1",
+  "description": "A service container in javascript.",
+  "keywords": [
+    "dependency injection",
+    "dependency",
+    "injection",
+    "injector",
+    "container",
+    "services",
+    "configuration"
+  ],
+  "homepage": "http://github.com/guilro/dico",
+  "bugs": {
+    "url" : "http://github.com/guilro/dico/issues"
+  },
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "jshint .;mocha --reporter list;"
+  },
+  "author": {
+    "name": "Guillaume Royer",
+    "email": "guilro@redado.org",
+    "url": "guilro.github.io"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "http://www.opensource.org/licenses/MIT"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "http://github.com/guilro/dico.git"
+  },
+  "dependencies": {
+    "debug": "*"
+  },
+  "devDependencies": {
+    "mocha": "1.16.*",
+    "jshint": "2.4.*"
+  },
+  "jshintConfig": {
+    "globalstrict": "true",
+    "globals": {
+      "require": false,
+      "module": false,
+      "console": false,
+      "__dirname": false,
+      "process": false,
+      "exports": false,
+      "describe": false,
+      "it": false
+    },
+    "camelcase": true,
+    "indent": 2,
+    "quotmark": "single"
+  }
+}
