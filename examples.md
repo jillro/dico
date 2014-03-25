@@ -3,6 +3,9 @@ layout: default
 title: Examples
 ---
 
+* Table of content.
+{:toc}
+
 # Examples
 
 Dico can be use to instantiate and inject services in your application. You can write your own services, or use existing ones, provided by other modules.
@@ -11,12 +14,12 @@ Using services provided by other modules can save lines of codes, as you only pr
 
 For example, using the service provided by the `dico-mongodb` module, you can set up a database connection in a few lines, in a clear and esay to maintain way.
 
-```bash
+~~~ bash
 $ npm install dico
 $ npm install dico-mongodb
-```
+~~~
 
-```js
+~~~ js
 // app.js
 var container = require('dico')('myApp');
 
@@ -33,11 +36,11 @@ container.set('userCollection', function(c, cb) {
 container.get('@userCollection', function(err, users) {
   users.find();
 });
-```
+~~~
 
 
 
-```js
+~~~ js
 // services.json
 {
   "database": {
@@ -45,4 +48,4 @@ container.get('@userCollection', function(err, users) {
     "url": "mongodb://localhost:27017/test"
   }
 }
-```
+~~~

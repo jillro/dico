@@ -3,36 +3,39 @@ layout: default
 title: Get Started
 ---
 
+* Table of content.
+{:toc}
+
 # Dico
 
 Dico is a simple dependency injection container in javascript.
 
 # Installation
-```bash
+~~~ bash
 $ npm install dico
-```
+~~~
 
 # Usage
 
 Require it your code :
 
-```js
+~~~js
 var dico = require('dico');
 container = dico('myApp');
-```
+~~~
 
 The container object has three methods, `get`, `set` and `load`, for managing parameters and services. In simple cases, you can `set` manually parameters and services, but if you use a dependency injector, you would probably want to load it from a JSON config file.
 
 ## Parameters
-```js
+~~~js
 container.set('param', 'paramValue');
 container.get('param'); // return 'paramValue'
-```
+~~~
 
 ## Services
 To define services, just pass a function as a parameter. The function will get the container as the first parameter and a callback as the second. A service can be any object useful to your app and/or to other services.
 
-```js
+~~~js
 container.set('myService', function(c, cb) {
   // get params from container
   var param1 = c.get('param1');
@@ -45,7 +48,7 @@ container.set('myService', function(c, cb) {
 container.get('@myService', function(err, service) {
   service.doStuff();
 });
-```
+~~~
 
 To get the service, just put `@` before its name. If you do `container.get('myService')`, it will return the service creation function and not the service itself.
 
@@ -57,7 +60,7 @@ Note that services are only instantiated when requested, so the order of definit
 
 You can use `container.load(config, basedir)` to define many services quickly.
 
-```js
+~~~js
 // services/config.json
 {
   "database": {
@@ -70,9 +73,9 @@ You can use `container.load(config, basedir)` to define many services quickly.
   },
   "environment": "dev"
 }
-```
+~~~
 
-```js
+~~~js
 // services/database.js
 module.exports = function(container, cb) {
   container.get('@errorLog', function(err, logger) {
@@ -85,24 +88,24 @@ module.exports = function(container, cb) {
     cb(null, database);
   });
 };
-```
+~~~
 
-```js
+~~~js
 // services/logger.js
 module.exports = function(container, cb) {
   var logger = new Logger();
   logget.setLevel(container.get('environment'));
 };
-```
+~~~
 
-```js
+~~~js
 // app.js
 container.load(JSON.parse('./services/config.json'), __dirname);
 
 container.get('@database', function(err, database) {
   database.doStuff();
 })
-```
+~~~
 
 The second parameter of `load` is the base directory where we should require the modules indicated in the config.
 

@@ -3,6 +3,9 @@ layout: default
 title: Services
 ---
 
+* Table of content.
+{:toc}
+
 # Services
 
 Here is a list of available module you can use with dico :

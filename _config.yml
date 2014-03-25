@@ -1,5 +1,6 @@
-markdown: redcarpet
-redcarpet:
-  extensions: ['tables']
-pygments: true
+markdown: kramdown
+kramdown:
+  use_coderay: true
+  coderay:
+    coderay_line_numbers: nil
 baseurl: /dico
