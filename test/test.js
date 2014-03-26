@@ -48,6 +48,18 @@ describe('Dico', function() {
       });
     });
 
+    it('should fallback to give the value when a value param is prefixed ' +
+    'with @ but is not a function', function(done) {
+      dico.set('valueParam', 'paramValue');
+      dico.get('@valueParam', function(err, service) {
+        if (err) return done(err);
+
+        assert.equal(service, 'paramValue');
+
+        return done();
+      });
+    });
+
     it('should not reinstantiate services twice', function(done) {
       var i = 0;
 
